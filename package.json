@@ -1,0 +1,33 @@
+{
+  "name": "@solenoid/contour-map",
+  "description": "Map countour line maps from USGS data.",
+  "version": "0.0.1",
+  "license": "MIT",
+  "author": {
+    "name": "Erik Solen"
+  },
+  "bin": "./index.js",
+  "type": "module",
+  "scripts": {
+    "start": "./index.js",
+    "clean:build": "rm -rf build",
+    "clean:cache": "rm -rf node_modules/.cache/@solenoid/contour-map",
+    "test": "echo 'TODO consider them'"
+  },
+  "dependencies": {
+    "adm-zip": "0.5.9",
+    "find-cache-dir": "3.3.2",
+    "mapshaper": "0.6.5",
+    "node-fetch": "3.2.6",
+    "yargs": "17.5.1"
+  },
+  "devDependencies": {
+    "prettier": "2.7.0"
+  },
+  "prettier": {
+    "semi": false
+  },
+  "volta": {
+    "node": "18.3.0"
+  }
+}
