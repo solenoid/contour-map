@@ -37,7 +37,7 @@ npm exec -- @solenoid/contour-map \
 --dots=-71.8875,42.488889,-71.858,42.515 \
 --simplify=50%
 
-## Other starting maps
+## Other maps
 
 # 1 degree of latitude and longitude
 ./index.js \
@@ -67,4 +67,22 @@ npm exec -- @solenoid/contour-map \
 --bbox=-73.51,41.035,-69.92,42.89 \
 --simplify=2% \
 --dots=-72.526390,42.391501
+
+# The Porches Inn North Adams Massachusetts.
+./index.js \
+--shapes=ELEV_Albany_E_MA_1X1_Shape \
+--shapes=ELEV_Albany_W_NY_1X1_Shape \
+--bbox=-73.3,42.6,-72.9,42.8 \
+--simplify=10% \
+--dots=-73.116040,42.702719
+
+# UC Santa Cruz.
+./index.js \
+--shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
+--shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
+--shapes=ELEV_San_Jose_W_CA_1X1_Shape \
+--shapes=ELEV_Monterey_W_CA_1X1_Shape \
+--bbox=-122.25,36.875,-121.75,37.125 \
+--simplify=33% \
+--dots=-122.06,37
 ```
