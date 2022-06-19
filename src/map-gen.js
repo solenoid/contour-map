@@ -50,10 +50,12 @@ export const mapGen = async (
   const EL = "ContourEle"
 
   const filter = `
-${EL} >= ${CUT_0} && (
- (${EL} < ${CUT_1} && ${EL} % 10 == 0) ||
- (${EL} < ${CUT_2} && ${EL} % 20 == 0) ||
- (${EL} < ${CUT_3} && ${EL} % 40 == 0) )`.replaceAll("\n", "")
+(${EL} >= ${CUT_0}) &&
+(
+  (${EL} < ${CUT_1} && ${EL} % 10 == 0) ||
+  (${EL} < ${CUT_2} && ${EL} % 20 == 0) ||
+  (${EL} < ${CUT_3} && ${EL} % 40 == 0)
+)`.replaceAll("\n", "")
 
   const clip = ["-clip", `bbox2=${bbox.join(",")}`]
 
@@ -83,6 +85,7 @@ ${EL} >= ${CUT_0} && (
   logger(["[mapshaper]", ...firstArgs])
   await mapshaper.runCommands(firstArgs)
 
+  // Line Widths
   // [major, minor, < 100, < 1000, < 21000, everything else]
   const referenceStrokeWidths = [20, 4, 1.5, 2, 3, 4]
   const latWidth = bbox[2] - bbox[0]
@@ -99,12 +102,28 @@ ${EL} >= ${CUT_0} && (
  ? ${strokeWidths[3]} : (${EL} < ${CUT_3})
  ? ${strokeWidths[4]} : ${strokeWidths[5]}`.replaceAll("\n", "")
 
+  // Line Colors
+  const CUT_COLOR_0 = 0
+  const CUT_COLOR_1 = 100
+  const CUT_COLOR_2 = 200
+  const strokeColors = [
+    "rgba(200,150,100,0.75)",
+    "rgba(100,150,200,1)",
+    "rgba(100,150,50,1)",
+    "rgba(20,50,0,1)",
+  ].map((color) => `"${color}"`)
   const stroke = `
-${EL} < 0
- ? "rgba(200,150,100,0.75)" : (${EL} < 100)
- ? "rgba(100,150,200,1)" : (${EL} < 200)
- ? "rgba(100,150,50,1)" : "rgba(20,50,0,1)"`.replaceAll("\n", "")
+(${EL} < ${CUT_COLOR_0})
+ ? ${strokeColors[0]} : (${EL} < ${CUT_COLOR_1})
+ ? ${strokeColors[1]} : (${EL} < ${CUT_COLOR_2})
+ ? ${strokeColors[2]} : ${strokeColors[3]}`.replaceAll("\n", "")
 
+  // Dots
+  const fill = "rgba(250,150,0,0.2)"
+  const radius = 10
+
+  // Dimensions
+  const width = 1440
   const secondArgs = [
     "-i",
     "combine-files",
@@ -116,12 +135,12 @@ ${EL} < 0
     "-style",
     `stroke='${stroke}'`,
     "-style",
-    "fill=rgba(250,150,0,0.2)",
+    `fill='${fill}'`,
     "-style",
-    "r=10",
+    `r=${radius}`,
     ...clip,
     "-o",
-    "width=1440",
+    `width=${width}`,
     `${build}/out.svg`,
   ].filter(Boolean)
   logger(["[mapshaper]", ...secondArgs])
