@@ -1,13 +1,27 @@
 // node
 import fs from "node:fs/promises"
+
 // libs
 import mapshaper from "mapshaper"
-// local
-import { dotsFeatureCollection, gridLinesFeatureCollection } from "./utils.js"
 
-export const mapGen = async (shapes, build, bbox, simplify, grid, dots) => {
-  // TODO get in verbose to flip logging on
-  mapshaper.enableLogging()
+// local
+import {
+  dotsFeatureCollection,
+  getLogger,
+  gridLinesFeatureCollection,
+} from "./utils.js"
+
+export const mapGen = async (
+  shapes,
+  build,
+  bbox,
+  simplify,
+  grid,
+  dots,
+  log
+) => {
+  const logger = getLogger(log)
+  if (log) mapshaper.enableLogging()
 
   // TODO consider intermediary file strategy
   const contourLinesFile = `${build}/contour-lines.json`
@@ -18,12 +32,14 @@ export const mapGen = async (shapes, build, bbox, simplify, grid, dots) => {
   if (HAS_GRID_LINES) {
     const geoGridLines = gridLinesFeatureCollection(...bbox)
     await fs.writeFile(gridLinesFile, JSON.stringify(geoGridLines, null, 2))
+    logger(["[o]", "Wrote", gridLinesFile])
   }
 
   const HAS_DOTS = dots.length > 0
   if (HAS_DOTS) {
     const geoDots = dotsFeatureCollection(dots)
     await fs.writeFile(dotsFile, JSON.stringify(geoDots, null, 2))
+    logger(["[o]", "Wrote", dotsFile])
   }
 
   const CUT_1_UNDER = -10
@@ -64,7 +80,7 @@ ${EL} >= ${CUT_0} && (
     "-o",
     contourLinesFile,
   ]
-  console.log(firstArgs)
+  logger(["[mapshaper]", ...firstArgs])
   await mapshaper.runCommands(firstArgs)
 
   // [major, minor, < 100, < 1000, < 21000, everything else]
@@ -76,18 +92,18 @@ ${EL} >= ${CUT_0} && (
   const strokeWidths = referenceStrokeWidths.map(normalizeStrokeWidth)
 
   const strokeWidth = `
-  (${EL} < ${CUT_1_UNDER})
-   ? ${strokeWidths[0]} : (${EL} < ${CUT_0})
-   ? ${strokeWidths[1]} : (${EL} < ${CUT_1})
-   ? ${strokeWidths[2]} : (${EL} < ${CUT_2})
-   ? ${strokeWidths[3]} : (${EL} < ${CUT_3})
-   ? ${strokeWidths[4]} : ${strokeWidths[5]}`.replaceAll("\n", "")
+(${EL} < ${CUT_1_UNDER})
+ ? ${strokeWidths[0]} : (${EL} < ${CUT_0})
+ ? ${strokeWidths[1]} : (${EL} < ${CUT_1})
+ ? ${strokeWidths[2]} : (${EL} < ${CUT_2})
+ ? ${strokeWidths[3]} : (${EL} < ${CUT_3})
+ ? ${strokeWidths[4]} : ${strokeWidths[5]}`.replaceAll("\n", "")
 
   const stroke = `
-  ${EL} < 0
-   ? "rgba(200,150,100,0.75)" : (${EL} < 100)
-   ? "rgba(100,150,200,1)" : (${EL} < 200)
-   ? "rgba(100,150,50,1)" : "rgba(20,50,0,1)"`.replaceAll("\n", "")
+${EL} < 0
+ ? "rgba(200,150,100,0.75)" : (${EL} < 100)
+ ? "rgba(100,150,200,1)" : (${EL} < 200)
+ ? "rgba(100,150,50,1)" : "rgba(20,50,0,1)"`.replaceAll("\n", "")
 
   const secondArgs = [
     "-i",
@@ -108,7 +124,7 @@ ${EL} >= ${CUT_0} && (
     "width=1440",
     `${build}/out.svg`,
   ].filter(Boolean)
-  console.log(secondArgs)
+  logger(["[mapshaper]", ...secondArgs])
   await mapshaper.runCommands(secondArgs)
   // TODO consider getting rid of lines that are only <g/> with nothing else
 }

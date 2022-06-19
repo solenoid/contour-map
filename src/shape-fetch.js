@@ -2,9 +2,13 @@
 import fs from "node:fs/promises"
 import path from "node:path"
 import stream from "node:stream/promises"
+
 // libs
 import Zip from "adm-zip"
 import fetch from "node-fetch"
+
+// local
+import { getLogger } from "./utils.js"
 
 const FROM_WHERE =
   "Use a Key from https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Contours/Shape/"
@@ -12,7 +16,8 @@ const FROM_WHERE =
 const SHAPE_URL =
   "https://prd-tnm.s3.amazonaws.com/StagedProducts/Contours/Shape"
 
-export const shapeFetch = async (shapeRaw, cacheDir) => {
+export const shapeFetch = async (shapeRaw, cacheDir, logging) => {
+  const logger = getLogger(logging)
   // Allow Key with or without extension and as a full URL or just the Key
   const urlParts = shapeRaw.split("/")
   const shape = urlParts[urlParts.length - 1].split(".")[0]
@@ -20,11 +25,14 @@ export const shapeFetch = async (shapeRaw, cacheDir) => {
   const shpFile = path.join(cacheDir, `${shape}.shp`)
   try {
     await fs.open(shpFile)
+    logger(["[cached]", shpFile])
+    // logger here most likely
     return shpFile
   } catch (err) {
     if (err.code !== "ENOENT") throw err
   }
 
+  logger(["[fetch]", shpFile])
   const zipName = `${shape}.zip`
   const zipURL = `${SHAPE_URL}/${zipName}`
   let res = await fetch(zipURL)
@@ -56,6 +64,6 @@ export const shapeFetch = async (shapeRaw, cacheDir) => {
   for await (const [fileName, buffer] of filesToWrite) {
     await fs.writeFile(fileName, buffer)
   }
-
+  logger(["[o]", shpFile])
   return shpFile
 }

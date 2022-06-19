@@ -6,6 +6,7 @@ import { hideBin } from "yargs/helpers"
 
 // local
 import { main } from "./src/main.js"
+import { getLogger } from "./src/utils.js"
 // Needs node@18 for the following assert to be supported
 // Still warns on experimental without above --no-warnings
 import pkg from "./package.json" assert { type: "json" }
@@ -42,6 +43,11 @@ const args = yargs(hideBin(process.argv))
     default: "5%",
     desc: "mapshaper simplify",
   })
+  .option("log", {
+    type: "boolean",
+    default: false,
+    desc: "Turn logging on or off",
+  })
   .option("grid", {
     alias: "g",
     type: "boolean",
@@ -73,9 +79,15 @@ const args = yargs(hideBin(process.argv))
   .alias("help", "h")
   .parse()
 
-// console.log(args)
+if (args.log) {
+  const logger = getLogger(args.log)
+  for (const [key, value] of Object.entries(args)) {
+    logger(["[arg]", key, value])
+  }
+}
 
 await main({
+  log: args.log,
   bbox: args.bbox,
   dots: args.dots,
   grid: args.grid,

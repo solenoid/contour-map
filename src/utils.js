@@ -58,3 +58,9 @@ export const gridLinesFeatureCollection = (xmin, ymin, xmax, ymax) => {
     features,
   }
 }
+
+const logger = (args) => {
+  console.log(args.join(" "))
+}
+// Consider supporting levels instead of boolean when getting the logger
+export const getLogger = (logging) => (logging ? logger : () => {})
