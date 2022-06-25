@@ -6,6 +6,7 @@ import mapshaper from "mapshaper"
 
 // local
 import {
+  CONTOUR_ELEVATION,
   dotsFeatureCollection,
   getLogger,
   gridLinesFeatureCollection,
@@ -13,7 +14,18 @@ import {
 
 export const mapGen = async (options) => {
   // console.log(options)
-  const { shapes, bbox, dots, grid, simplify, build, log } = options
+  const {
+    shapes,
+    bbox,
+    dots,
+    grid,
+    keep10,
+    keep20,
+    keep40,
+    simplify,
+    build,
+    log,
+  } = options
   const logger = getLogger(log)
   if (log) mapshaper.enableLogging()
 
@@ -23,34 +35,44 @@ export const mapGen = async (options) => {
   const dotsFile = `${build}/dots.json`
   const svgFile = `${build}/out.svg`
 
+  const overallMin = Math.min(keep10[0], keep20[0], keep40[0])
+  const majorElevation = overallMin - 20
+  const minorElevation = overallMin - 10
+  const keep10Min = keep10[0]
+  const keep20Min = keep20[0]
+  const keep40Min = keep40[0]
+  const keep10Max = keep10[1]
+  const keep20Max = keep20[1]
+  const keep40Max = keep40[1]
+
   const HAS_GRID_LINES = grid
   if (HAS_GRID_LINES) {
-    const geoGridLines = gridLinesFeatureCollection(...bbox)
+    const geoGridLines = gridLinesFeatureCollection(
+      majorElevation,
+      minorElevation,
+      ...bbox
+    )
     await fs.writeFile(gridLinesFile, JSON.stringify(geoGridLines, null, 2))
     logger(["[o]", "Wrote", gridLinesFile])
   }
 
   const HAS_DOTS = dots.length > 0
   if (HAS_DOTS) {
-    const geoDots = dotsFeatureCollection(dots)
+    const geoDots = dotsFeatureCollection(minorElevation, dots)
     await fs.writeFile(dotsFile, JSON.stringify(geoDots, null, 2))
     logger(["[o]", "Wrote", dotsFile])
   }
 
-  const CUT_1_UNDER = -10
-  const CUT_0 = 0
-  const CUT_1 = 100
-  const CUT_2 = 1000
-  const CUT_3 = 21000
-  const EL = "ContourEle"
-
   const filter = `
-(${EL} >= ${CUT_0}) &&
-(
-  (${EL} < ${CUT_1} && ${EL} % 10 == 0) ||
-  (${EL} < ${CUT_2} && ${EL} % 20 == 0) ||
-  (${EL} < ${CUT_3} && ${EL} % 40 == 0)
-)`.replaceAll("\n", "")
+(${CONTOUR_ELEVATION} >= ${overallMin}) &&
+ ((${CONTOUR_ELEVATION} >= ${keep10Min} &&
+   ${CONTOUR_ELEVATION} <  ${keep10Max} && ${CONTOUR_ELEVATION} % 10 == 0) ||
+  (${CONTOUR_ELEVATION} >= ${keep20Min} &&
+   ${CONTOUR_ELEVATION} <  ${keep20Max} && ${CONTOUR_ELEVATION} % 20 == 0) ||
+  (${CONTOUR_ELEVATION} >= ${keep40Min} &&
+   ${CONTOUR_ELEVATION} <  ${keep40Max} && ${CONTOUR_ELEVATION} % 40 == 0))`
+    .replaceAll("\n", "")
+    .replaceAll(/\s+/g, " ")
 
   const clip = ["-clip", `bbox2=${bbox.join(",")}`]
 
@@ -65,8 +87,8 @@ export const mapGen = async (options) => {
     filter,
     "remove-empty",
     "-dissolve",
-    `fields=${EL}`,
-    `copy-fields=${EL}`,
+    `fields=${CONTOUR_ELEVATION}`,
+    `copy-fields=${CONTOUR_ELEVATION}`,
     "planar",
     "-simplify",
     simplify,
@@ -81,7 +103,7 @@ export const mapGen = async (options) => {
   await mapshaper.runCommands(firstArgs)
 
   // Line Widths
-  // [major, minor, < 100, < 1000, < 21000, everything else]
+  // [major, minor, < keep10, < keep20, < keep40, everything else]
   const referenceStrokeWidths = [20, 4, 1.5, 2, 3, 4]
   const latWidth = bbox[2] - bbox[0]
   const divisor = 6 * (latWidth + 0.25)
@@ -89,14 +111,16 @@ export const mapGen = async (options) => {
   const normalizeStrokeWidth = (width) => (width / divisor).toFixed(3)
   const strokeWidths = referenceStrokeWidths.map(normalizeStrokeWidth)
 
+  // TODO consider if keep 10, 20, 40 are always increasing
   const strokeWidth = `
-(${EL} < ${CUT_1_UNDER})
- ? ${strokeWidths[0]} : (${EL} < ${CUT_0})
- ? ${strokeWidths[1]} : (${EL} < ${CUT_1})
- ? ${strokeWidths[2]} : (${EL} < ${CUT_2})
- ? ${strokeWidths[3]} : (${EL} < ${CUT_3})
+(${CONTOUR_ELEVATION} < ${minorElevation})
+ ? ${strokeWidths[0]} : (${CONTOUR_ELEVATION} < ${overallMin})
+ ? ${strokeWidths[1]} : (${CONTOUR_ELEVATION} < ${keep10Max})
+ ? ${strokeWidths[2]} : (${CONTOUR_ELEVATION} < ${keep20Max})
+ ? ${strokeWidths[3]} : (${CONTOUR_ELEVATION} < ${keep40Max})
  ? ${strokeWidths[4]} : ${strokeWidths[5]}`.replaceAll("\n", "")
 
+  // TODO consider making available as args
   // Line Colors
   const CUT_COLOR_0 = 0
   const CUT_COLOR_1 = 100
@@ -108,16 +132,18 @@ export const mapGen = async (options) => {
     "rgba(20,50,0,1)",
   ].map((color) => `"${color}"`)
   const stroke = `
-(${EL} < ${CUT_COLOR_0})
- ? ${strokeColors[0]} : (${EL} < ${CUT_COLOR_1})
- ? ${strokeColors[1]} : (${EL} < ${CUT_COLOR_2})
+(${CONTOUR_ELEVATION} < ${CUT_COLOR_0})
+ ? ${strokeColors[0]} : (${CONTOUR_ELEVATION} < ${CUT_COLOR_1})
+ ? ${strokeColors[1]} : (${CONTOUR_ELEVATION} < ${CUT_COLOR_2})
  ? ${strokeColors[2]} : ${strokeColors[3]}`.replaceAll("\n", "")
 
   // Dots
+  // TODO consider making available as args
   const fill = "rgba(250,150,0,0.2)"
   const radius = 10
 
   // Dimensions
+  // TODO consider making available as args
   const width = 1440
   const secondArgs = [
     "-i",

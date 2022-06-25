@@ -23,6 +23,12 @@ const defaultCacheDir = findCacheDir({ name: pkg.name })
 // TODO pull out coerce and concerns around
 // different args syntax support; also get
 // in good testing for different arg forms.
+const keepCoerce = (val) =>
+  val
+    .map((d) => (typeof d === "string" ? d.split(",").map(Number) : d))
+    .flat()
+    .filter((d) => Number.isFinite(d))
+
 const args = yargs(hideBin(process.argv))
   // Shapes are required for now, they could be derived from the bbox
   .option("shapes", {
@@ -85,6 +91,30 @@ const args = yargs(hideBin(process.argv))
     default: "5%",
   })
 
+  // Keep 10 foot contour lines that are within the bounds
+  .option("keep10", {
+    type: "array",
+    default: [0, 100],
+    desc: "10 foot contour bounds",
+    coerce: keepCoerce,
+  })
+
+  // Keep 20 foot contour lines that are within the bounds
+  .option("keep20", {
+    type: "array",
+    default: [100, 1000],
+    desc: "20 foot contour bounds",
+    coerce: keepCoerce,
+  })
+
+  // Keep 40 foot contour lines that are within the bounds
+  .option("keep40", {
+    type: "array",
+    default: [1000, 21000],
+    desc: "40 foot contour bounds",
+    coerce: keepCoerce,
+  })
+
   // Simple build directory with default, still need to test well
   .option("build", {
     desc: "dir",
@@ -125,6 +155,7 @@ const logger = getLogger(args.log)
 for (const [key, value] of Object.entries(args)) {
   logger(["[arg]", key, JSON.stringify(value)])
 }
+// console.log(args)
 
 // TODO consider clean for both cache dir and build dir
 await fs.mkdir(args.build, { recursive: true })
@@ -142,7 +173,17 @@ const shapes = await Promise.all(
   args.shapes.map(async (shape) => await shapeFetch({ ...fetchArgs, shape }))
 )
 
-const mapArgKeys = ["bbox", "dots", "grid", "simplify", "build", "log"]
+const mapArgKeys = [
+  "bbox",
+  "dots",
+  "grid",
+  "simplify",
+  "keep10",
+  "keep20",
+  "keep40",
+  "build",
+  "log",
+]
 const mapArgs = Object.fromEntries(
   Object.entries(args).filter(([key]) => mapArgKeys.includes(key))
 )

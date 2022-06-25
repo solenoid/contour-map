@@ -77,12 +77,98 @@ npm exec -- @solenoid/contour-map \
 --dots=-73.116040,42.702719
 
 # UC Santa Cruz.
+## without grid lines
 ./index.js \
 --shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
 --shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
 --shapes=ELEV_San_Jose_W_CA_1X1_Shape \
 --shapes=ELEV_Monterey_W_CA_1X1_Shape \
 --bbox=-122.25,36.875,-121.75,37.125 \
---simplify=33% \
+--keep10=0,0 \
+--keep20=0,160 \
+--keep40=160,21000 \
+--simplify=30% \
+--no-grid \
+--dots=-122.06,37
+### zooming out
+./index.js \
+--shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
+--shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
+--shapes=ELEV_San_Jose_W_CA_1X1_Shape \
+--shapes=ELEV_Monterey_W_CA_1X1_Shape \
+--bbox=-122.5,36.75,-121.5,37.25 \
+--keep10=0,0 \
+--keep20=0,160 \
+--keep40=160,21000 \
+--simplify=20% \
+--no-grid \
+--dots=-122.06,37
+### zooming out
+./index.js \
+--shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
+--shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
+--shapes=ELEV_San_Jose_W_CA_1X1_Shape \
+--shapes=ELEV_Monterey_W_CA_1X1_Shape \
+--bbox=-122.75,36.7,-121.25,37.3 \
+--keep10=0,0 \
+--keep20=0,160 \
+--keep40=160,21000 \
+--simplify=10% \
+--no-grid \
+--dots=-122.06,37
+### zooming out
+./index.js \
+--shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
+--shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
+--shapes=ELEV_San_Jose_W_CA_1X1_Shape \
+--shapes=ELEV_Monterey_W_CA_1X1_Shape \
+--bbox=-123,36.625,-121,37.375 \
+--keep10=0,0 \
+--keep20=0,160 \
+--keep40=160,21000 \
+--simplify=5% \
+--no-grid \
+--dots=-122.06,37
+## with grid lines
+./index.js \
+--shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
+--shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
+--shapes=ELEV_San_Jose_W_CA_1X1_Shape \
+--shapes=ELEV_Monterey_W_CA_1X1_Shape \
+--bbox=-122.25,36.875,-121.75,37.125 \
+--keep10=0,0 \
+--keep20=0,160 \
+--keep40=160,21000 \
+--simplify=30% \
+--dots=-122.06,37
+### zooming out
+./index.js \
+--shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
+--shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
+--shapes=ELEV_San_Jose_W_CA_1X1_Shape \
+--shapes=ELEV_Monterey_W_CA_1X1_Shape \
+--bbox=-122.5,36.75,-121.5,37.25 \
+--keep10=0,0 \
+--keep20=0,160 \
+--keep40=160,21000 \
+--simplify=20% \
+--dots=-122.06,37
+### zooming out
+./index.js \
+--shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
+--shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
+--shapes=ELEV_San_Jose_W_CA_1X1_Shape \
+--shapes=ELEV_Monterey_W_CA_1X1_Shape \
+--bbox=-122.5,36.625,-121,37.375 \
+--keep10=0,0 \
+--keep20=0,160 \
+--keep40=160,21000 \
+--simplify=10% \
 --dots=-122.06,37
 ```
+
+## Resources
+
+To understand the data that makes these contour maps see:
+
+https://pubs.usgs.gov/sir/2012/5167/sir2012-5167.pdf

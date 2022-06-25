@@ -1,9 +1,13 @@
-export const dotsFeatureCollection = (dots) => ({
+// NOTE the name "ContourEle" is likely due to shape file name truncation
+//      it likely stands for ContourElevation if it was a full name.
+export const CONTOUR_ELEVATION = "ContourEle"
+
+export const dotsFeatureCollection = (dotElevation, dots) => ({
   type: "FeatureCollection",
   features: dots.map((dot) => ({
     type: "Feature",
     properties: {
-      ContourEle: -10, // magic number still need to document
+      [CONTOUR_ELEVATION]: dotElevation,
     },
     geometry: {
       type: "Point",
@@ -12,7 +16,7 @@ export const dotsFeatureCollection = (dots) => ({
   })),
 })
 
-const lineString = (x1, y1, x2, y2, grid = "major") => ({
+const lineString = (x1, y1, x2, y2, elevation) => ({
   type: "Feature",
   geometry: {
     type: "LineString",
@@ -22,33 +26,39 @@ const lineString = (x1, y1, x2, y2, grid = "major") => ({
     ],
   },
   properties: {
-    grid,
-    ContourEle: grid === "major" ? -20 : -10, // magic number still need to document
+    [CONTOUR_ELEVATION]: elevation,
   },
 })
 
-export const gridLinesFeatureCollection = (xmin, ymin, xmax, ymax) => {
+export const gridLinesFeatureCollection = (
+  major,
+  minor,
+  xmin,
+  ymin,
+  xmax,
+  ymax
+) => {
   const majorXFloor = Math.floor(xmin)
   const majorXCeiling = Math.ceil(xmax)
   const majorYFloor = Math.floor(ymin)
   const majorYCeiling = Math.ceil(ymax)
   let features = []
   for (let x = majorXFloor; x <= majorXCeiling; x++) {
-    features.push(lineString(x, majorYFloor, x, majorYCeiling, "major"))
+    features.push(lineString(x, majorYFloor, x, majorYCeiling, major))
     if (x !== majorXCeiling) {
-      for (let minor = 0.125; minor < 1; minor += 0.125) {
+      for (let m = 0.125; m < 1; m += 0.125) {
         features.push(
-          lineString(x + minor, majorYFloor, x + minor, majorYCeiling, "minor")
+          lineString(x + m, majorYFloor, x + m, majorYCeiling, minor)
         )
       }
     }
   }
   for (let y = majorYFloor; y <= majorYCeiling; y++) {
-    features.push(lineString(majorXFloor, y, majorXCeiling, y, "major"))
+    features.push(lineString(majorXFloor, y, majorXCeiling, y, major))
     if (y !== majorYCeiling) {
-      for (let minor = 0.125; minor < 1; minor += 0.125) {
+      for (let m = 0.125; m < 1; m += 0.125) {
         features.push(
-          lineString(majorXFloor, y + minor, majorXCeiling, y + minor, "minor")
+          lineString(majorXFloor, y + m, majorXCeiling, y + m, minor)
         )
       }
     }
