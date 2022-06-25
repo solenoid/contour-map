@@ -1,6 +1,6 @@
 {
   "name": "@solenoid/contour-map",
-  "description": "Map countour line maps from USGS data.",
+  "description": "Map contour line maps from USGS data",
   "version": "0.0.1",
   "license": "MIT",
   "author": {
