@@ -1,5 +1,5 @@
-node_modules/
 build/
 .tmp/
 .DS_Store
+examples/
 solenoid-*.tgz
