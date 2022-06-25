@@ -15,7 +15,7 @@ node --no-warnings index.js -v
 ./index.js -v
 ```
 
-## First Maps
+## Example Maps
 
 If you wanted a contour map of Wachusett Mountain (skiing) and Crow Hill (climbing) areas try the following.
 
@@ -37,7 +37,7 @@ npm exec -- @solenoid/contour-map \
 --dots=-71.8875,42.488889,-71.858,42.515 \
 --simplify=50%
 
-## Other maps
+## More maps
 
 # 1 degree of latitude and longitude
 ./index.js \
@@ -74,10 +74,10 @@ npm exec -- @solenoid/contour-map \
 --shapes=ELEV_Albany_W_NY_1X1_Shape \
 --bbox=-73.3,42.6,-72.9,42.8 \
 --simplify=10% \
+--no-grid \
 --dots=-73.116040,42.702719
 
 # UC Santa Cruz.
-## without grid lines
 ./index.js \
 --shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
 --shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
@@ -90,33 +90,21 @@ npm exec -- @solenoid/contour-map \
 --simplify=30% \
 --no-grid \
 --dots=-122.06,37
-### zooming out
+
+## UC Santa Cruz. zoomed out
 ./index.js \
 --shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
 --shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
 --shapes=ELEV_San_Jose_W_CA_1X1_Shape \
 --shapes=ELEV_Monterey_W_CA_1X1_Shape \
---bbox=-122.5,36.75,-121.5,37.25 \
---keep10=0,0 \
---keep20=0,160 \
---keep40=160,21000 \
---simplify=20% \
---no-grid \
---dots=-122.06,37
-### zooming out
-./index.js \
---shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
---shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
---shapes=ELEV_San_Jose_W_CA_1X1_Shape \
---shapes=ELEV_Monterey_W_CA_1X1_Shape \
---bbox=-122.75,36.7,-121.25,37.3 \
+--bbox=-122.5,36.625,-121,37.375 \
 --keep10=0,0 \
 --keep20=0,160 \
 --keep40=160,21000 \
 --simplify=10% \
---no-grid \
 --dots=-122.06,37
-### zooming out
+
+# UC Santa Cruz. zoomed out without grid lines
 ./index.js \
 --shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
 --shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
@@ -128,42 +116,6 @@ npm exec -- @solenoid/contour-map \
 --keep40=160,21000 \
 --simplify=5% \
 --no-grid \
---dots=-122.06,37
-## with grid lines
-./index.js \
---shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
---shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
---shapes=ELEV_San_Jose_W_CA_1X1_Shape \
---shapes=ELEV_Monterey_W_CA_1X1_Shape \
---bbox=-122.25,36.875,-121.75,37.125 \
---keep10=0,0 \
---keep20=0,160 \
---keep40=160,21000 \
---simplify=30% \
---dots=-122.06,37
-### zooming out
-./index.js \
---shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
---shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
---shapes=ELEV_San_Jose_W_CA_1X1_Shape \
---shapes=ELEV_Monterey_W_CA_1X1_Shape \
---bbox=-122.5,36.75,-121.5,37.25 \
---keep10=0,0 \
---keep20=0,160 \
---keep40=160,21000 \
---simplify=20% \
---dots=-122.06,37
-### zooming out
-./index.js \
---shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
---shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
---shapes=ELEV_San_Jose_W_CA_1X1_Shape \
---shapes=ELEV_Monterey_W_CA_1X1_Shape \
---bbox=-122.5,36.625,-121,37.375 \
---keep10=0,0 \
---keep20=0,160 \
---keep40=160,21000 \
---simplify=10% \
 --dots=-122.06,37
 ```
 
