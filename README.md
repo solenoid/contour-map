@@ -22,7 +22,7 @@ If you wanted a contour map of Wachusett Mountain (skiing) and Crow Hill (climbi
 - [Mount Wachusett Summit at -71.7875,42.688889](https://en.wikipedia.org/wiki/Mount_Wachusett)
 - [Crow Hill Rock Climbing at -71.858,42.515](https://www.mountainproject.com/area/105905492/crow-hill)
 
-```
+```shell
 # general usage
 npm exec -- @solenoid/contour-map \
 --shapes=ELEV_Boston_W_MA_1X1_Shape \
@@ -30,29 +30,17 @@ npm exec -- @solenoid/contour-map \
 --dots=-71.8875,42.488889,-71.858,42.515 \
 --simplify=50%
 
-# local development
+# running locally
 ./index.js \
 --shapes=ELEV_Boston_W_MA_1X1_Shape \
 --bbox=-72,42.44,-71.75,42.56 \
 --dots=-71.8875,42.488889,-71.858,42.515 \
 --simplify=50%
+```
 
-## More maps
+![Mount Wachusett](examples/wachusett.png)
 
-# 1 degree of latitude and longitude
-./index.js \
---shapes=ELEV_Boston_W_MA_1X1_Shape \
---bbox=-72,42,-71,43 \
---dots=-71.8875,42.488889,-71.858,42.515 \
---simplify=10%
-
-# Meriam's Corner and Minute Man Visitor Center.
-./index.js \
---shapes=ELEV_Boston_W_MA_1X1_Shape \
---bbox=-71.351,42.43,-71.251,42.48 \
---dots=-71.324424,42.459437,-71.269489,42.448579 \
---simplify=75%
-
+```shell
 # All of Massachusetts and States South with a dot on UMASS Amherst.
 ./index.js \
 --shapes=ELEV_Boston_W_MA_1X1_Shape \
@@ -67,17 +55,12 @@ npm exec -- @solenoid/contour-map \
 --bbox=-73.51,41.035,-69.92,42.89 \
 --simplify=2% \
 --dots=-72.526390,42.391501
+```
 
-# The Porches Inn North Adams Massachusetts.
-./index.js \
---shapes=ELEV_Albany_E_MA_1X1_Shape \
---shapes=ELEV_Albany_W_NY_1X1_Shape \
---bbox=-73.3,42.6,-72.9,42.8 \
---simplify=10% \
---no-grid \
---dots=-73.116040,42.702719
+![Massachusetts](examples/massachusetts.png)
 
-# UC Santa Cruz.
+```shell
+# UC Santa Cruz
 ./index.js \
 --shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
 --shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
@@ -91,20 +74,7 @@ npm exec -- @solenoid/contour-map \
 --no-grid \
 --dots=-122.06,37
 
-## UC Santa Cruz. zoomed out
-./index.js \
---shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
---shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
---shapes=ELEV_San_Jose_W_CA_1X1_Shape \
---shapes=ELEV_Monterey_W_CA_1X1_Shape \
---bbox=-122.5,36.625,-121,37.375 \
---keep10=0,0 \
---keep20=0,160 \
---keep40=160,21000 \
---simplify=10% \
---dots=-122.06,37
-
-# UC Santa Cruz. zoomed out without grid lines
+# UC Santa Cruz, zoomed out, without grid lines
 ./index.js \
 --shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
 --shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
@@ -117,7 +87,42 @@ npm exec -- @solenoid/contour-map \
 --simplify=5% \
 --no-grid \
 --dots=-122.06,37
+
+# UC Santa Cruz, zoomed out, with grid lines
+./index.js \
+--shapes=ELEV_San_Francisco_E_CA_1X1_Shape \
+--shapes=ELEV_Santa_Cruz_E_CA_1X1_Shape \
+--shapes=ELEV_San_Jose_W_CA_1X1_Shape \
+--shapes=ELEV_Monterey_W_CA_1X1_Shape \
+--bbox=-122.5,36.625,-121,37.375 \
+--keep10=0,0 \
+--keep20=0,160 \
+--keep40=160,21000 \
+--simplify=10% \
+--dots=-122.06,37
 ```
+
+![UC Santa Cruz](examples/uc-santa-cruz.png)
+
+```shell
+# Minute Man Visitor Center
+./index.js \
+--shapes=ELEV_Boston_W_MA_1X1_Shape \
+--bbox=-71.351,42.43,-71.251,42.48 \
+--dots=-71.269489,42.448579 \
+--simplify=75%
+
+# North Adams Massachusetts, The Porches Inn
+./index.js \
+--shapes=ELEV_Albany_E_MA_1X1_Shape \
+--shapes=ELEV_Albany_W_NY_1X1_Shape \
+--bbox=-73.3,42.6,-72.9,42.8 \
+--simplify=10% \
+--no-grid \
+--dots=-73.116040,42.702719
+```
+
+![North Adams, The Porches Inn](examples/north-adams.png)
 
 ## Resources
 
