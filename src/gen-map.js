@@ -12,7 +12,7 @@ import {
   gridLinesFeatureCollection,
 } from "./utils.js"
 
-export const mapGen = async (options) => {
+export const genMap = async (options) => {
   // console.log(options)
   const {
     shapes,

@@ -16,7 +16,7 @@ const FROM_WHERE =
 const SHAPE_URL =
   "https://prd-tnm.s3.amazonaws.com/StagedProducts/Contours/Shape"
 
-export const shapeFetch = async (options) => {
+export const fetchShape = async (options) => {
   // console.log(options)
   const { shape, cache, log } = options
   const logger = getLogger(log)

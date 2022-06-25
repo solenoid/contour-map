@@ -10,8 +10,8 @@ import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
 
 // local
-import { mapGen } from "./src/map-gen.js"
-import { shapeFetch } from "./src/shape-fetch.js"
+import { fetchShape } from "./src/fetch-shape.js"
+import { genMap } from "./src/gen-map.js"
 import { getLogger } from "./src/utils.js"
 // Needs node@18 for the following assert to be supported
 // Still warns on experimental without above --no-warnings
@@ -170,7 +170,7 @@ const fetchArgs = Object.fromEntries(
 
 // Fetch or use cache and resolve full names for shape files
 const shapes = await Promise.all(
-  args.shapes.map(async (shape) => await shapeFetch({ ...fetchArgs, shape }))
+  args.shapes.map(async (shape) => await fetchShape({ ...fetchArgs, shape }))
 )
 
 const mapArgKeys = [
@@ -188,4 +188,4 @@ const mapArgs = Object.fromEntries(
   Object.entries(args).filter(([key]) => mapArgKeys.includes(key))
 )
 
-await mapGen({ ...mapArgs, shapes })
+await genMap({ ...mapArgs, shapes })
