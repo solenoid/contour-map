@@ -11,15 +11,9 @@ import {
   gridLinesFeatureCollection,
 } from "./utils.js"
 
-export const mapGen = async (
-  shapes,
-  build,
-  bbox,
-  simplify,
-  grid,
-  dots,
-  log
-) => {
+export const mapGen = async (options) => {
+  // console.log(options)
+  const { shapes, bbox, dots, grid, simplify, build, log } = options
   const logger = getLogger(log)
   if (log) mapshaper.enableLogging()
 
@@ -27,6 +21,7 @@ export const mapGen = async (
   const contourLinesFile = `${build}/contour-lines.json`
   const gridLinesFile = `${build}/grid-lines.json`
   const dotsFile = `${build}/dots.json`
+  const svgFile = `${build}/out.svg`
 
   const HAS_GRID_LINES = grid
   if (HAS_GRID_LINES) {
@@ -141,7 +136,7 @@ export const mapGen = async (
     ...clip,
     "-o",
     `width=${width}`,
-    `${build}/out.svg`,
+    svgFile,
   ].filter(Boolean)
   logger(["[mapshaper]", ...secondArgs])
   await mapshaper.runCommands(secondArgs)

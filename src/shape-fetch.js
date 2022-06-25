@@ -16,13 +16,15 @@ const FROM_WHERE =
 const SHAPE_URL =
   "https://prd-tnm.s3.amazonaws.com/StagedProducts/Contours/Shape"
 
-export const shapeFetch = async (shapeRaw, cacheDir, logging) => {
-  const logger = getLogger(logging)
+export const shapeFetch = async (options) => {
+  // console.log(options)
+  const { shape, cache, log } = options
+  const logger = getLogger(log)
   // Allow Key with or without extension and as a full URL or just the Key
-  const urlParts = shapeRaw.split("/")
-  const shape = urlParts[urlParts.length - 1].split(".")[0]
+  const urlParts = shape.split("/")
+  const shapeName = urlParts[urlParts.length - 1].split(".")[0]
 
-  const shpFile = path.join(cacheDir, `${shape}.shp`)
+  const shpFile = path.join(cache, `${shapeName}.shp`)
   try {
     await fs.open(shpFile)
     logger(["[cached]", shpFile])
@@ -33,12 +35,12 @@ export const shapeFetch = async (shapeRaw, cacheDir, logging) => {
   }
 
   logger(["[fetch]", shpFile])
-  const zipName = `${shape}.zip`
+  const zipName = `${shapeName}.zip`
   const zipURL = `${SHAPE_URL}/${zipName}`
   let res = await fetch(zipURL)
   if (!res.ok) throw new Error(`Problem fetching ${zipURL} \n${FROM_WHERE}`)
 
-  const zipFile = path.join(cacheDir, zipName)
+  const zipFile = path.join(cache, zipName)
   const out = await fs.open(zipFile, "wx")
   await stream.pipeline(res.body, out.createWriteStream())
 
@@ -53,11 +55,11 @@ export const shapeFetch = async (shapeRaw, cacheDir, logging) => {
         entry.name === "Elev_Contour.prj" ||
         entry.name === "Elev_Contour.shp" ||
         entry.name === "Elev_Contour.shx" ||
-        entry.name === `${shape}.xml` ||
-        entry.name === `${shape}.jpg`
+        entry.name === `${shapeName}.xml` ||
+        entry.name === `${shapeName}.jpg`
     )
     .map((entry) => [
-      path.join(cacheDir, `${shape}.${entry.name.split(".")[1]}`),
+      path.join(cache, `${shapeName}.${entry.name.split(".")[1]}`),
       zip.readFile(entry),
     ])
 

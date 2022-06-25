@@ -1,23 +1,47 @@
 #!/usr/bin/env node --no-warnings
 
+// node
+import fs from "node:fs/promises"
+import path from "node:path"
+
 // libs
+import findCacheDir from "find-cache-dir"
 import yargs from "yargs"
 import { hideBin } from "yargs/helpers"
 
 // local
-import { main } from "./src/main.js"
+import { mapGen } from "./src/map-gen.js"
+import { shapeFetch } from "./src/shape-fetch.js"
 import { getLogger } from "./src/utils.js"
 // Needs node@18 for the following assert to be supported
 // Still warns on experimental without above --no-warnings
 import pkg from "./package.json" assert { type: "json" }
 
+const defaultBuildDir = path.join(process.cwd(), "build")
+const defaultCacheDir = findCacheDir({ name: pkg.name })
+
+// TODO pull out coerce and concerns around
+// different args syntax support; also get
+// in good testing for different arg forms.
 const args = yargs(hideBin(process.argv))
+  // Shapes are required for now, they could be derived from the bbox
+  .option("shapes", {
+    alias: "s",
+    desc: "One or more Staged Products Shape names",
+    type: "array",
+    coerce: (shapes) =>
+      shapes
+        .map((shape) => shape.split(","))
+        .flat() // TODO consider trimming
+        .filter(Boolean),
+  })
+
+  // We require a bounding box, it may become the only thing needed if
+  // the shapes that it overlaps can be derived instead of also required
   .option("bbox", {
     alias: "b",
-    type: "string",
-    // TODO consider dynamic default from min and max in shape geometry
     desc: "Clip to <xmin,ymin,xmax,ymax>",
-    // TODO consider pulling coerce out into very testable functions
+    type: "string",
     coerce: (bbox) => {
       const [x1, y1, x2, y2] = bbox.split(",").map(Number)
       const xmax = Math.max(x1, x2)
@@ -27,39 +51,13 @@ const args = yargs(hideBin(process.argv))
       return [xmin, ymin, xmax, ymax]
     },
   })
-  .option("shapes", {
-    alias: "s",
-    type: "array",
-    desc: "One or more Staged Products Shape names",
-    // TODO consider pulling coerce out into very testable functions
-    coerce: (shapes) =>
-      shapes
-        .map((shape) => shape.split(","))
-        .flat() // TODO consider trimming
-        .filter(Boolean),
-  })
-  .option("simplify", {
-    type: "string",
-    default: "5%",
-    desc: "mapshaper simplify",
-  })
-  .option("log", {
-    type: "boolean",
-    default: false,
-    desc: "Turn logging on or off",
-  })
-  .option("grid", {
-    alias: "g",
-    type: "boolean",
-    default: true,
-    desc: "Draw major and minor grid lines",
-  })
+
+  // Allow dots at points of interest
   .option("dots", {
     alias: "d",
+    desc: "Zero or more x,y,x,y pairs",
     type: "array",
     default: [],
-    desc: "Zero or more x,y,x,y pairs",
-    // TODO consider pulling coerce out into very testable functions
     coerce: (dots) =>
       dots
         .map((dot) => dot.split(","))
@@ -71,27 +69,82 @@ const args = yargs(hideBin(process.argv))
         )
         .filter(Boolean),
   })
-  .demandOption(["bbox"], "Need to have a bounding box")
+
+  // Show or hide major and minor grid lines
+  .option("grid", {
+    alias: "g",
+    desc: "Draw major and minor grid lines",
+    type: "boolean",
+    default: true,
+  })
+
+  // Simplify out lots of details by default and allow other settings
+  .option("simplify", {
+    desc: "mapshaper simplify",
+    type: "string",
+    default: "5%",
+  })
+
+  // Simple build directory with default, still need to test well
+  .option("build", {
+    desc: "dir",
+    type: "string",
+    default: defaultBuildDir,
+  })
+
+  // Allow cache directory overrides with sensible default
+  .option("cache", {
+    desc: "dir",
+    type: "string",
+  })
+  .default("cache", defaultCacheDir, "see github.com/avajs/find-cache-dir")
+
+  // Simple logging, may consider more complex level setup latter
+  .option("log", {
+    desc: "Turn logging on or off",
+    type: "boolean",
+    default: false,
+  })
+
+  // Required options
   .demandOption(["shapes"], "Need at least one shapefile")
+  .demandOption(["bbox"], "Need to have a bounding box")
+
+  // Standard version args
   .version()
   .alias("version", "v")
+
+  // Standard help args
   .help()
   .alias("help", "h")
+
+  // Parse all the command line args
   .parse()
 
-if (args.log) {
-  const logger = getLogger(args.log)
-  for (const [key, value] of Object.entries(args)) {
-    logger(["[arg]", key, value])
-  }
+const logger = getLogger(args.log)
+for (const [key, value] of Object.entries(args)) {
+  logger(["[arg]", key, JSON.stringify(value)])
 }
 
-await main({
-  log: args.log,
-  bbox: args.bbox,
-  dots: args.dots,
-  grid: args.grid,
-  shapes: args.shapes,
-  simplify: args.simplify,
-  packageName: pkg.name,
-})
+// TODO consider clean for both cache dir and build dir
+await fs.mkdir(args.build, { recursive: true })
+await fs.mkdir(args.cache, { recursive: true })
+logger(["[dir]", "build", args.build])
+logger(["[dir]", "cache", args.cache])
+
+const fetchArgKeys = ["cache", "log"]
+const fetchArgs = Object.fromEntries(
+  Object.entries(args).filter(([key]) => fetchArgKeys.includes(key))
+)
+
+// Fetch or use cache and resolve full names for shape files
+const shapes = await Promise.all(
+  args.shapes.map(async (shape) => await shapeFetch({ ...fetchArgs, shape }))
+)
+
+const mapArgKeys = ["bbox", "dots", "grid", "simplify", "build", "log"]
+const mapArgs = Object.fromEntries(
+  Object.entries(args).filter(([key]) => mapArgKeys.includes(key))
+)
+
+await mapGen({ ...mapArgs, shapes })
