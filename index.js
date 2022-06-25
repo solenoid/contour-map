@@ -153,15 +153,15 @@ const args = yargs(hideBin(process.argv))
 
 const logger = getLogger(args.log)
 for (const [key, value] of Object.entries(args)) {
-  logger(["[arg]", key, JSON.stringify(value)])
+  logger(["[a]", key, JSON.stringify(value)])
 }
 // console.log(args)
 
 // TODO consider clean for both cache dir and build dir
 await fs.mkdir(args.build, { recursive: true })
 await fs.mkdir(args.cache, { recursive: true })
-logger(["[dir]", "build", args.build])
-logger(["[dir]", "cache", args.cache])
+logger(["[d]", "build", args.build])
+logger(["[d]", "cache", args.cache])
 
 const fetchArgKeys = ["cache", "log"]
 const fetchArgs = Object.fromEntries(

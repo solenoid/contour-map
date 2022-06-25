@@ -26,14 +26,14 @@ export const fetchShape = async (options) => {
   const shpFile = path.join(cache, `${shapeName}.shp`)
   try {
     await fs.open(shpFile)
-    logger(["[cached]", shpFile])
+    logger(["[c]", shpFile])
     // logger here most likely
     return shpFile
   } catch (err) {
     if (err.code !== "ENOENT") throw err
   }
 
-  logger(["[fetch]", shpFile])
+  logger(["[f]", shpFile])
   const zipName = `${shapeName}.zip`
   const zipURL = `${SHAPE_URL}/${zipName}`
   let res = await fetch(zipURL)
