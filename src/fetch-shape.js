@@ -5,7 +5,6 @@ import stream from "node:stream/promises"
 
 // libs
 import Zip from "adm-zip"
-import fetch from "node-fetch"
 
 // local
 import { getLogger } from "./utils.js"

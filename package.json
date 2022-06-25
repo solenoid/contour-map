@@ -19,7 +19,6 @@
     "adm-zip": "0.5.9",
     "find-cache-dir": "3.3.2",
     "mapshaper": "0.6.5",
-    "node-fetch": "3.2.6",
     "yargs": "17.5.1"
   },
   "devDependencies": {

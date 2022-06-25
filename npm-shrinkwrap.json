@@ -12,7 +12,6 @@
         "adm-zip": "0.5.9",
         "find-cache-dir": "3.3.2",
         "mapshaper": "0.6.5",
-        "node-fetch": "3.2.6",
         "yargs": "17.5.1"
       },
       "bin": {
@@ -226,14 +225,6 @@
         "d3-interpolate": "1 - 2"
       }
     },
-    "node_modules/data-uri-to-buffer": {
-      "version": "4.0.0",
-      "resolved": "https://registry.npmjs.org/data-uri-to-buffer/-/data-uri-to-buffer-4.0.0.tgz",
-      "integrity": "sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==",
-      "engines": {
-        "node": ">= 12"
-      }
-    },
     "node_modules/delaunator": {
       "version": "5.0.0",
       "resolved": "https://registry.npmjs.org/delaunator/-/delaunator-5.0.0.tgz",
@@ -269,28 +260,6 @@
       "integrity": "sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw==",
       "engines": {
         "node": ">=6"
-      }
-    },
-    "node_modules/fetch-blob": {
-      "version": "3.1.5",
-      "resolved": "https://registry.npmjs.org/fetch-blob/-/fetch-blob-3.1.5.tgz",
-      "integrity": "sha512-N64ZpKqoLejlrwkIAnb9iLSA3Vx/kjgzpcDhygcqJ2KKjky8nCgUQ+dzXtbrLaWZGZNmNfQTsiQ0weZ1svglHg==",
-      "funding": [
-        {
-          "type": "github",
-          "url": "https://github.com/sponsors/jimmywarting"
-        },
-        {
-          "type": "paypal",
-          "url": "https://paypal.me/jimmywarting"
-        }
-      ],
-      "dependencies": {
-        "node-domexception": "^1.0.0",
-        "web-streams-polyfill": "^3.0.3"
-      },
-      "engines": {
-        "node": "^12.20 || >= 14.13"
       }
     },
     "node_modules/find-cache-dir": {
@@ -345,17 +314,6 @@
       },
       "engines": {
         "node": ">= 0.12"
-      }
-    },
-    "node_modules/formdata-polyfill": {
-      "version": "4.0.10",
-      "resolved": "https://registry.npmjs.org/formdata-polyfill/-/formdata-polyfill-4.0.10.tgz",
-      "integrity": "sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==",
-      "dependencies": {
-        "fetch-blob": "^3.1.2"
-      },
-      "engines": {
-        "node": ">=12.20.0"
       }
     },
     "node_modules/function-bind": {
@@ -600,41 +558,6 @@
       },
       "engines": {
         "node": ">=0.12.0"
-      }
-    },
-    "node_modules/node-domexception": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/node-domexception/-/node-domexception-1.0.0.tgz",
-      "integrity": "sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==",
-      "funding": [
-        {
-          "type": "github",
-          "url": "https://github.com/sponsors/jimmywarting"
-        },
-        {
-          "type": "github",
-          "url": "https://paypal.me/jimmywarting"
-        }
-      ],
-      "engines": {
-        "node": ">=10.5.0"
-      }
-    },
-    "node_modules/node-fetch": {
-      "version": "3.2.6",
-      "resolved": "https://registry.npmjs.org/node-fetch/-/node-fetch-3.2.6.tgz",
-      "integrity": "sha512-LAy/HZnLADOVkVPubaxHDft29booGglPFDr2Hw0J1AercRh01UiVFm++KMDnJeH9sHgNB4hsXPii7Sgym/sTbw==",
-      "dependencies": {
-        "data-uri-to-buffer": "^4.0.0",
-        "fetch-blob": "^3.1.4",
-        "formdata-polyfill": "^4.0.10"
-      },
-      "engines": {
-        "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
-      },
-      "funding": {
-        "type": "opencollective",
-        "url": "https://opencollective.com/node-fetch"
       }
     },
     "node_modules/object-inspect": {
@@ -907,20 +830,12 @@
     "node_modules/typedarray": {
       "version": "0.0.6",
       "resolved": "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz",
-      "integrity": "sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c="
+      "integrity": "sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA=="
     },
     "node_modules/util-deprecate": {
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
-      "integrity": "sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8="
-    },
-    "node_modules/web-streams-polyfill": {
-      "version": "3.2.1",
-      "resolved": "https://registry.npmjs.org/web-streams-polyfill/-/web-streams-polyfill-3.2.1.tgz",
-      "integrity": "sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==",
-      "engines": {
-        "node": ">= 8"
-      }
+      "integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="
     },
     "node_modules/wrap-ansi": {
       "version": "7.0.0",
@@ -1144,11 +1059,6 @@
         "d3-interpolate": "1 - 2"
       }
     },
-    "data-uri-to-buffer": {
-      "version": "4.0.0",
-      "resolved": "https://registry.npmjs.org/data-uri-to-buffer/-/data-uri-to-buffer-4.0.0.tgz",
-      "integrity": "sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA=="
-    },
     "delaunator": {
       "version": "5.0.0",
       "resolved": "https://registry.npmjs.org/delaunator/-/delaunator-5.0.0.tgz",
@@ -1176,15 +1086,6 @@
       "version": "3.1.1",
       "resolved": "https://registry.npmjs.org/escalade/-/escalade-3.1.1.tgz",
       "integrity": "sha512-k0er2gUkLf8O0zKJiAhmkTnJlTvINGv7ygDNPbeIsX/TJjGJZHuh9B2UxbsaEkmlEo9MfhrSzmhIlhRlI2GXnw=="
-    },
-    "fetch-blob": {
-      "version": "3.1.5",
-      "resolved": "https://registry.npmjs.org/fetch-blob/-/fetch-blob-3.1.5.tgz",
-      "integrity": "sha512-N64ZpKqoLejlrwkIAnb9iLSA3Vx/kjgzpcDhygcqJ2KKjky8nCgUQ+dzXtbrLaWZGZNmNfQTsiQ0weZ1svglHg==",
-      "requires": {
-        "node-domexception": "^1.0.0",
-        "web-streams-polyfill": "^3.0.3"
-      }
     },
     "find-cache-dir": {
       "version": "3.3.2",
@@ -1226,14 +1127,6 @@
         "asynckit": "^0.4.0",
         "combined-stream": "^1.0.6",
         "mime-types": "^2.1.12"
-      }
-    },
-    "formdata-polyfill": {
-      "version": "4.0.10",
-      "resolved": "https://registry.npmjs.org/formdata-polyfill/-/formdata-polyfill-4.0.10.tgz",
-      "integrity": "sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==",
-      "requires": {
-        "fetch-blob": "^3.1.2"
       }
     },
     "function-bind": {
@@ -1422,21 +1315,6 @@
       "requires": {
         "geographiclib": "1.48.0",
         "rw": "~1.3.2"
-      }
-    },
-    "node-domexception": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/node-domexception/-/node-domexception-1.0.0.tgz",
-      "integrity": "sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ=="
-    },
-    "node-fetch": {
-      "version": "3.2.6",
-      "resolved": "https://registry.npmjs.org/node-fetch/-/node-fetch-3.2.6.tgz",
-      "integrity": "sha512-LAy/HZnLADOVkVPubaxHDft29booGglPFDr2Hw0J1AercRh01UiVFm++KMDnJeH9sHgNB4hsXPii7Sgym/sTbw==",
-      "requires": {
-        "data-uri-to-buffer": "^4.0.0",
-        "fetch-blob": "^3.1.4",
-        "formdata-polyfill": "^4.0.10"
       }
     },
     "object-inspect": {
@@ -1654,17 +1532,12 @@
     "typedarray": {
       "version": "0.0.6",
       "resolved": "https://registry.npmjs.org/typedarray/-/typedarray-0.0.6.tgz",
-      "integrity": "sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c="
+      "integrity": "sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA=="
     },
     "util-deprecate": {
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
-      "integrity": "sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8="
-    },
-    "web-streams-polyfill": {
-      "version": "3.2.1",
-      "resolved": "https://registry.npmjs.org/web-streams-polyfill/-/web-streams-polyfill-3.2.1.tgz",
-      "integrity": "sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q=="
+      "integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="
     },
     "wrap-ansi": {
       "version": "7.0.0",
