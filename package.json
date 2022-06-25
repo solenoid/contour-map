@@ -12,7 +12,7 @@
     "start": "./index.js",
     "clean:build": "rm -rf build",
     "clean:cache": "rm -rf node_modules/.cache/@solenoid/contour-map",
-    "format": "npm exec -- prettier --write src index.js",
+    "format": "npm exec --yes -- prettier@2.7.1 --write src index.js",
     "test": "echo 'TODO consider them'"
   },
   "dependencies": {
@@ -20,9 +20,6 @@
     "find-cache-dir": "3.3.2",
     "mapshaper": "0.6.5",
     "yargs": "17.5.1"
-  },
-  "devDependencies": {
-    "prettier": "2.7.1"
   },
   "prettier": {
     "semi": false
