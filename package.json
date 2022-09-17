@@ -18,13 +18,13 @@
   "dependencies": {
     "adm-zip": "0.5.9",
     "find-cache-dir": "3.3.2",
-    "mapshaper": "0.6.5",
+    "mapshaper": "0.6.7",
     "yargs": "17.5.1"
   },
   "prettier": {
     "semi": false
   },
   "volta": {
-    "node": "18.4.0"
+    "node": "18.9.0"
   }
 }

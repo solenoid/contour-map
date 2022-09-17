@@ -11,7 +11,7 @@
       "dependencies": {
         "adm-zip": "0.5.9",
         "find-cache-dir": "3.3.2",
-        "mapshaper": "0.6.5",
+        "mapshaper": "0.6.7",
         "yargs": "17.5.1"
       },
       "bin": {
@@ -492,9 +492,9 @@
       }
     },
     "node_modules/mapshaper": {
-      "version": "0.6.5",
-      "resolved": "https://registry.npmjs.org/mapshaper/-/mapshaper-0.6.5.tgz",
-      "integrity": "sha512-VARJS3wwA4KfNSUjws/9dOAAxPThHpbN3kyvqa7WiVTJcyOedIjkyTaeBVtQlUZPht1cKqn0pb804ZEw1uBLAA==",
+      "version": "0.6.7",
+      "resolved": "https://registry.npmjs.org/mapshaper/-/mapshaper-0.6.7.tgz",
+      "integrity": "sha512-Pu94o6JuHDVZ8tJxgfB5JqB36NAdpqBDoJNnVBp08eWClf0YW208LwboM7boOdglw4z9VelifdkLz7OQetOz+g==",
       "dependencies": {
         "@tmcw/togeojson": "^4.7.0",
         "@xmldom/xmldom": "^0.8.2",
@@ -1255,9 +1255,9 @@
       }
     },
     "mapshaper": {
-      "version": "0.6.5",
-      "resolved": "https://registry.npmjs.org/mapshaper/-/mapshaper-0.6.5.tgz",
-      "integrity": "sha512-VARJS3wwA4KfNSUjws/9dOAAxPThHpbN3kyvqa7WiVTJcyOedIjkyTaeBVtQlUZPht1cKqn0pb804ZEw1uBLAA==",
+      "version": "0.6.7",
+      "resolved": "https://registry.npmjs.org/mapshaper/-/mapshaper-0.6.7.tgz",
+      "integrity": "sha512-Pu94o6JuHDVZ8tJxgfB5JqB36NAdpqBDoJNnVBp08eWClf0YW208LwboM7boOdglw4z9VelifdkLz7OQetOz+g==",
       "requires": {
         "@tmcw/togeojson": "^4.7.0",
         "@xmldom/xmldom": "^0.8.2",
