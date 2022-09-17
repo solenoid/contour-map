@@ -114,11 +114,16 @@ export const genMap = async (options) => {
   // TODO consider if keep 10, 20, 40 are always increasing
   const strokeWidth = `
 (${CONTOUR_ELEVATION} < ${minorElevation})
- ? ${strokeWidths[0]} : (${CONTOUR_ELEVATION} < ${overallMin})
- ? ${strokeWidths[1]} : (${CONTOUR_ELEVATION} < ${keep10Max})
- ? ${strokeWidths[2]} : (${CONTOUR_ELEVATION} < ${keep20Max})
- ? ${strokeWidths[3]} : (${CONTOUR_ELEVATION} < ${keep40Max})
- ? ${strokeWidths[4]} : ${strokeWidths[5]}`.replaceAll("\n", "")
+ ? ${strokeWidths[0]} :
+(${CONTOUR_ELEVATION} < ${overallMin})
+ ? ${strokeWidths[1]} :
+(${CONTOUR_ELEVATION} < ${keep10Max})
+ ? ${strokeWidths[2]} :
+(${CONTOUR_ELEVATION} < ${keep20Max})
+ ? ${strokeWidths[3]} :
+(${CONTOUR_ELEVATION} < ${keep40Max})
+ ? ${strokeWidths[4]} :
+   ${strokeWidths[5]}`.replaceAll("\n", "")
 
   // TODO consider making available as args
   // Line Colors
@@ -133,13 +138,16 @@ export const genMap = async (options) => {
   ].map((color) => `"${color}"`)
   const stroke = `
 (${CONTOUR_ELEVATION} < ${CUT_COLOR_0})
- ? ${strokeColors[0]} : (${CONTOUR_ELEVATION} < ${CUT_COLOR_1})
- ? ${strokeColors[1]} : (${CONTOUR_ELEVATION} < ${CUT_COLOR_2})
- ? ${strokeColors[2]} : ${strokeColors[3]}`.replaceAll("\n", "")
+ ? ${strokeColors[0]} :
+(${CONTOUR_ELEVATION} < ${CUT_COLOR_1})
+ ? ${strokeColors[1]} :
+(${CONTOUR_ELEVATION} < ${CUT_COLOR_2})
+ ? ${strokeColors[2]} :
+   ${strokeColors[3]}`.replaceAll("\n", "")
 
   // Dots
   // TODO consider making available as args
-  const fill = "rgba(250,150,0,0.2)"
+  const fill = "rgba(250,100,0,0.4)"
   const radius = 10
 
   // Dimensions
