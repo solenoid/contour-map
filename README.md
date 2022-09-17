@@ -120,6 +120,13 @@ npm exec -- @solenoid/contour-map \
 --simplify=10% \
 --no-grid \
 --dots=-73.116040,42.702719
+
+# Mount Desert Island, Maine
+./index.js \
+--shapes=ELEV_Bangor_E_ME_1X1_Shape \
+--bbox=-68.55,44.22,-68.1,44.45 \
+--dots=-68.2572385,44.4306378 \
+--simplify=50% --log
 ```
 
 ![North Adams, The Porches Inn](examples/north-adams.png)
