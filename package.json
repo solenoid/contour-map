@@ -2,7 +2,7 @@
   "name": "@solenoid/contour-map",
   "description": "Map contour line maps from USGS data",
   "version": "0.0.1",
-  "license": "MIT",
+  "license": "ISC",
   "author": {
     "name": "Erik Solen"
   },
