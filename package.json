@@ -19,7 +19,7 @@
     "adm-zip": "0.5.9",
     "find-cache-dir": "3.3.2",
     "mapshaper": "0.6.7",
-    "yargs": "17.5.1"
+    "yargs": "17.6.0"
   },
   "prettier": {
     "semi": false
