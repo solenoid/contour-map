@@ -20,9 +20,8 @@ import pkg from "./package.json" assert { type: "json" }
 const defaultBuildDir = path.join(process.cwd(), "build")
 const defaultCacheDir = findCacheDir({ name: pkg.name })
 
-// TODO pull out coerce and concerns around
-// different args syntax support; also get
-// in good testing for different arg forms.
+// TODO pull out coerce and concerns around different args syntax support;
+//      also get in good testing for different arg forms.
 const keepCoerce = (val) =>
   val
     .map((d) => (typeof d === "string" ? d.split(",").map(Number) : d))
@@ -42,8 +41,8 @@ const args = yargs(hideBin(process.argv))
         .filter(Boolean),
   })
 
-  // We require a bounding box, it may become the only thing needed if
-  // the shapes that it overlaps can be derived instead of also required
+  // We require a bounding box, it may become the only thing needed if the
+  // shapes that it overlaps can be derived instead of also required
   .option("bbox", {
     alias: "b",
     desc: "Clip to <xmin,ymin,xmax,ymax>",
@@ -155,7 +154,6 @@ const logger = getLogger(args.log)
 for (const [key, value] of Object.entries(args)) {
   logger(["[a]", key, JSON.stringify(value)])
 }
-// console.log(args)
 
 // TODO consider clean for both cache dir and build dir
 await fs.mkdir(args.build, { recursive: true })

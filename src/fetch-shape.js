@@ -16,7 +16,6 @@ const SHAPE_URL =
   "https://prd-tnm.s3.amazonaws.com/StagedProducts/Contours/Shape"
 
 export const fetchShape = async (options) => {
-  // console.log(options)
   const { shape, cache, log } = options
   const logger = getLogger(log)
   // Allow Key with or without extension and as a full URL or just the Key
@@ -27,7 +26,6 @@ export const fetchShape = async (options) => {
   try {
     await fs.open(shpFile)
     logger(["[c]", shpFile])
-    // logger here most likely
     return shpFile
   } catch (err) {
     if (err.code !== "ENOENT") throw err

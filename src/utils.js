@@ -1,5 +1,5 @@
-// NOTE the name "ContourEle" is likely due to shape file name truncation
-//      it likely stands for ContourElevation if it was a full name.
+// NOTE the name "ContourEle" due to the fact that Field names for shapefiles
+//      and dBASE tables can be no more than 10 characters in length.
 export const CONTOUR_ELEVATION = "ContourEle"
 
 export const dotsFeatureCollection = (dotElevation, dots) => ({

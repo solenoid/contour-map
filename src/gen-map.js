@@ -13,7 +13,6 @@ import {
 } from "./utils.js"
 
 export const genMap = async (options) => {
-  // console.log(options)
   const {
     shapes,
     bbox,
