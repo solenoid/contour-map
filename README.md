@@ -17,7 +17,7 @@ node --no-warnings index.js -v
 
 ## Example Maps
 
-If you wanted a contour map of Wachusett Mountain (skiing) and Crow Hill (climbing) areas try the following.
+If you wanted a contour map of Wachusett Mountain (hiking) and Crow Hill (climbing) areas try the following.
 
 - [Mount Wachusett Summit at -71.7875,42.688889](https://en.wikipedia.org/wiki/Mount_Wachusett)
 - [Crow Hill Rock Climbing at -71.858,42.515](https://www.mountainproject.com/area/105905492/crow-hill)
@@ -112,6 +112,13 @@ npm exec -- @solenoid/contour-map \
 --dots=-71.269489,42.448579 \
 --simplify=75%
 
+# Mount Desert Island, Maine
+./index.js \
+--shapes=ELEV_Bangor_E_ME_1X1_Shape \
+--bbox=-68.55,44.22,-68.1,44.45 \
+--dots=-68.2572385,44.4306378 \
+--simplify=50% --log
+
 # North Adams Massachusetts, The Porches Inn
 ./index.js \
 --shapes=ELEV_Albany_E_MA_1X1_Shape \
@@ -120,13 +127,6 @@ npm exec -- @solenoid/contour-map \
 --simplify=10% \
 --no-grid \
 --dots=-73.116040,42.702719
-
-# Mount Desert Island, Maine
-./index.js \
---shapes=ELEV_Bangor_E_ME_1X1_Shape \
---bbox=-68.55,44.22,-68.1,44.45 \
---dots=-68.2572385,44.4306378 \
---simplify=50% --log
 ```
 
 ![North Adams, The Porches Inn](examples/north-adams.png)
