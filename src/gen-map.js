@@ -173,5 +173,4 @@ export const genMap = async (options) => {
   ].filter(Boolean)
   logger(["[mapshaper]", ...secondArgs])
   await mapshaper.runCommands(secondArgs)
-  // TODO consider getting rid of lines that are only <g/> with nothing else
 }
